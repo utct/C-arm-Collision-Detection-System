@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.3//EN" "http://www.web3d.org/specifications/x3d-3.3.dtd">
+<X3D profile='Full' version='3.3'>
+<head>
+	<meta name='title' content='Complete Patient Table Assembly'/>
+	<meta name='description' content='Patient table with all 3 parts (top, body, wheels) positioned as in main.x3d'/>
+	<meta name='created' content='2025-11-13'/>
+</head>
+<Scene>
+	<!-- Navigation and viewing setup -->
+	<NavigationInfo type='"EXAMINE" "ANY"' />
+	<Background skyColor="0.937 0.937 0.933" />
+	
+	<!-- Default viewpoint to see the entire table -->
+	<Viewpoint 
+		description='Table View' 
+		position='2 0 3' 
+		orientation='0 1 0 0.5' 
+		centerOfRotation='0.3 -0.2 0' 
+		fieldOfView='0.785' 
+		set_bind="true" 
+	/>
+	
+	<!-- Alternative viewpoints -->
+	<Viewpoint 
+		description='Top View' 
+		position='0.3 2 0' 
+		orientation='1 0 0 -1.5708' 
+		centerOfRotation='0.3 -0.2 0' 
+		fieldOfView='0.785' 
+	/>
+	
+	<Viewpoint 
+		description='Side View' 
+		position='3 -0.2 0' 
+		orientation='0 1 0 1.5708' 
+		centerOfRotation='0.3 -0.2 0' 
+		fieldOfView='0.785' 
+	/>
+	
+	<Viewpoint 
+		description='Front View' 
+		position='0.3 -0.2 3' 
+		orientation='0 0 0 0' 
+		centerOfRotation='0.3 -0.2 0' 
+		fieldOfView='0.785' 
+	/>
+	
+	<!-- Add coordinate axes for reference (optional - can be removed) -->
+	<Transform DEF='CoordAxes' scale='0.5 0.5 0.5'>
+		<!-- X axis - Red -->
+		<Transform translation='0.5 0 0'>
+			<Shape>
+				<Appearance>
+					<Material diffuseColor='1 0 0' emissiveColor='0.5 0 0'/>
+				</Appearance>
+				<Cylinder radius='0.01' height='1'/>
+			</Shape>
+		</Transform>
+		<Transform translation='1 0 0'>
+			<Shape>
+				<Appearance>
+					<Material diffuseColor='1 0 0' emissiveColor='0.5 0 0'/>
+				</Appearance>
+				<Cone bottomRadius='0.03' height='0.1'/>
+			</Shape>
+		</Transform>
+		
+		<!-- Y axis - Green -->
+		<Transform translation='0 0.5 0' rotation='0 0 1 1.5708'>
+			<Shape>
+				<Appearance>
+					<Material diffuseColor='0 1 0' emissiveColor='0 0.5 0'/>
+				</Appearance>
+				<Cylinder radius='0.01' height='1'/>
+			</Shape>
+		</Transform>
+		<Transform translation='0 1 0'>
+			<Shape>
+				<Appearance>
+					<Material diffuseColor='0 1 0' emissiveColor='0 0.5 0'/>
+				</Appearance>
+				<Cone bottomRadius='0.03' height='0.1'/>
+			</Shape>
+		</Transform>
+		
+		<!-- Z axis - Blue -->
+		<Transform translation='0 0 0.5' rotation='1 0 0 -1.5708'>
+			<Shape>
+				<Appearance>
+					<Material diffuseColor='0 0 1' emissiveColor='0 0 0.5'/>
+				</Appearance>
+				<Cylinder radius='0.01' height='1'/>
+			</Shape>
+		</Transform>
+		<Transform translation='0 0 1'>
+			<Shape>
+				<Appearance>
+					<Material diffuseColor='0 0 1' emissiveColor='0 0 0.5'/>
+				</Appearance>
+				<Cone bottomRadius='0.03' height='0.1'/>
+			</Shape>
+		</Transform>
+	</Transform>
+	
+	<!-- Complete Patient Table Assembly -->
+	<!-- This matches the exact configuration from main.x3d -->
+	<!-- Base transform: translation='0.3 -0.2 0' rotation='0 1 0 1.5708' scale='1.35 1.35 1.35' -->
+	
+	<Transform DEF='TTableRotation' translation='0.3 -0.2 0' rotation='0 1 0 1.5708' scale='1.35 1.35 1.35'>
+		
+		<!-- Table Top - positioned just below patient, centered over body -->
+		<Transform DEF='TTableTopBase' translation='0.325 0 0'>
+			<Transform rotation='0 0 1 1.5708'>
+				<Inline DEF='ITableTop' url='models/table_top_watertight_mesh.x3d' />
+			</Transform>
+		</Transform>
+		
+		<!-- Table Body - center position, below table top -->
+		<Transform DEF='TTableBodyTransform' translation='0.4 -0.6 0'>
+			<Inline DEF='ITableBody' url='models/table_body_sphere_watertight_mesh.x3d' />
+		</Transform>
+		
+		<!-- Table Wheels Base - at bottom -->
+		<Transform DEF='TTableWheelsTransform' translation='0.25 -0.6 0'>
+			<Inline DEF='ITableWheels' url='models/table_wheels_base_watertight_mesh.x3d' />
+		</Transform>
+		
+	</Transform>
+	
+	<!-- Optional: Add a grid on the ground plane for spatial reference -->
+	<Transform translation='0.3 -1.2 0'>
+		<Shape>
+			<Appearance>
+				<Material diffuseColor='0.7 0.7 0.7' transparency='0.7'/>
+			</Appearance>
+			<Box size='4 0.01 4'/>
+		</Shape>
+	</Transform>
+	
+	<!-- Info text -->
+	<Transform translation='0.3 1 0'>
+		<Billboard axisOfRotation='0 1 0'>
+			<Shape>
+				<Text string='"Patient Table Assembly", "(3 parts combined)", "", "Scale: 1.35x", "Rotation: 90° around Y-axis"'>
+					<FontStyle justify='"MIDDLE" "MIDDLE"' size='0.15' family='"SANS"' style='BOLD'/>
+				</Text>
+				<Appearance>
+					<Material diffuseColor='0 0 0'/>
+				</Appearance>
+			</Shape>
+		</Billboard>
+	</Transform>
+	
+</Scene>
+</X3D>

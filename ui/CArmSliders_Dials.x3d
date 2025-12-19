@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<X3D version="3.0" profile="Immersive" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
+	<Group>
+		<KeySensor DEF='KEYSENSORMENU' />
+		<NavigationInfo type="EXAMINE" />
+		
+		<Group DEF="menu">
+			<!-- C-Arm Circular Dials arranged in 2 rows x 3 columns -->
+				
+				<!-- Row 1: Rotational Controls (Blue dials) -->
+				
+				<!-- ORBITAL DIAL (-100 to 100 degrees) -->
+				<Transform translation="-0.25 0.15 0">
+					<Group DEF="Rotation1DialGroup">
+						<!-- Dial Background -->
+						<Shape>
+							<Appearance>
+								<Material diffuseColor="0.2 0.2 0.4"/>
+							</Appearance>
+							<Disk2D outerRadius="0.08"/>
+						</Shape>
+						<!-- Dial Border -->
+						<Transform translation="0 0 0.001">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.7 0.7 0.9" emissiveColor="0.2 0.2 0.3"/>
+								</Appearance>
+								<Disk2D innerRadius="0.075" outerRadius="0.08"/>
+							</Shape>
+						</Transform>
+						<!-- Center Dot -->
+						<Transform translation="0 0 0.002">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.5 0.5 0.5"/>
+								</Appearance>
+								<Disk2D outerRadius="0.008"/>
+							</Shape>
+						</Transform>
+						<!-- Pointer -->
+						<Transform DEF="Rotation1Pointer" rotation="0 0 1 0" translation="0 0 0.003">
+							<Transform translation="0 0.05 0">
+								<Shape>
+									<Appearance>
+										<Material diffuseColor="1 0.2 0.2" emissiveColor="0.3 0 0"/>
+									</Appearance>
+									<Box size="0.008 0.04 0.001"/>
+								</Shape>
+							</Transform>
+						</Transform>
+						<!-- Label -->
+						<Transform translation="0 -0.13 0">
+							<Shape>
+								<Text string='"Orbital"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.03" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="0 0 0"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+						<!-- Value Display -->
+						<Transform translation="0 0.12 0">
+							<Shape>
+								<Text DEF="Rotation1ValueText" string='"0"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="1 1 1"/>
+								</Appearance>
+							</Shape>
+					</Transform>
+				<!-- Touch Sensor -->
+				<Transform translation="0 0 0.004">
+					<Shape>
+						<Appearance>
+							<Material transparency="0.99"/>
+						</Appearance>
+						<Disk2D outerRadius="0.08"/>
+						<TouchSensor DEF="Rotation1Touch" enabled="true"/>
+					</Shape>
+				</Transform>
+			</Group>
+			</Transform>			<!-- TILT DIAL (-90 to 270 degrees) -->
+			<Transform translation="0 0.15 0">
+					<Group DEF="Rotation2DialGroup">
+						<Shape>
+							<Appearance>
+								<Material diffuseColor="0.2 0.2 0.4"/>
+							</Appearance>
+							<Disk2D outerRadius="0.08"/>
+						</Shape>
+						<Transform translation="0 0 0.001">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.7 0.7 0.9" emissiveColor="0.2 0.2 0.3"/>
+								</Appearance>
+								<Disk2D innerRadius="0.075" outerRadius="0.08"/>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0 0.002">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.5 0.5 0.5"/>
+								</Appearance>
+								<Disk2D outerRadius="0.008"/>
+							</Shape>
+						</Transform>
+						<Transform DEF="Rotation2Pointer" rotation="0 0 1 0" translation="0 0 0.003">
+							<Transform translation="0 0.05 0">
+								<Shape>
+									<Appearance>
+										<Material diffuseColor="1 0.2 0.2" emissiveColor="0.3 0 0"/>
+									</Appearance>
+									<Box size="0.008 0.04 0.001"/>
+								</Shape>
+							</Transform>
+						</Transform>
+						<Transform translation="0 -0.13 0">
+							<Shape>
+								<Text string='"Tilt"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.03" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="0 0 0"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0.12 0">
+							<Shape>
+								<Text DEF="Rotation2ValueText" string='"0"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="1 1 1"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+					<Transform translation="0 0 0.004">
+						<Shape>
+							<Appearance>
+								<Material transparency="0.99"/>
+							</Appearance>
+							<Disk2D outerRadius="0.08"/>
+						</Shape>
+					</Transform>
+				<TouchSensor DEF="Rotation2Touch" enabled="true"/>
+			</Group>
+		</Transform>				<!-- WIGWAG DIAL (-10 to 10 degrees) -->
+			<Transform translation="0.25 0.15 0">
+				<Group DEF="Rotation3DialGroup">
+						<Shape>
+							<Appearance>
+								<Material diffuseColor="0.2 0.2 0.4"/>
+							</Appearance>
+							<Disk2D outerRadius="0.08"/>
+						</Shape>
+						<Transform translation="0 0 0.001">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.7 0.7 0.9" emissiveColor="0.2 0.2 0.3"/>
+								</Appearance>
+								<Disk2D innerRadius="0.075" outerRadius="0.08"/>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0 0.002">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.5 0.5 0.5"/>
+								</Appearance>
+								<Disk2D outerRadius="0.008"/>
+							</Shape>
+						</Transform>
+						<Transform DEF="Rotation3Pointer" rotation="0 0 1 0" translation="0 0 0.003">
+							<Transform translation="0 0.05 0">
+								<Shape>
+									<Appearance>
+										<Material diffuseColor="1 0.2 0.2" emissiveColor="0.3 0 0"/>
+									</Appearance>
+									<Box size="0.008 0.04 0.001"/>
+								</Shape>
+							</Transform>
+						</Transform>
+						<Transform translation="0 -0.13 0">
+							<Shape>
+								<Text string='"Wigwag"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.03" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="0 0 0"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0.12 0">
+							<Shape>
+								<Text DEF="Rotation3ValueText" string='"0"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="1 1 1"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+					<Transform translation="0 0 0.004">
+						<Shape>
+							<Appearance>
+								<Material transparency="0.99"/>
+							</Appearance>
+							<Disk2D outerRadius="0.08"/>
+							<TouchSensor DEF="Rotation3Touch" enabled="true"/>
+						</Shape>
+					</Transform>
+				</Group>
+			</Transform>				<!-- Row 2: Translational Controls (Red/Orange dials) -->
+				
+			<!-- HORIZONTAL DIAL (0 to 15 cm) -->
+			<Transform translation="-0.25 -0.15 0">
+				<Group DEF="Translation1DialGroup">
+						<Shape>
+							<Appearance>
+								<Material diffuseColor="0.3 0.2 0.2"/>
+							</Appearance>
+							<Disk2D outerRadius="0.08"/>
+						</Shape>
+						<Transform translation="0 0 0.001">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.9 0.7 0.7" emissiveColor="0.3 0.2 0.2"/>
+								</Appearance>
+								<Disk2D innerRadius="0.075" outerRadius="0.08"/>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0 0.002">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.5 0.5 0.5"/>
+								</Appearance>
+								<Disk2D outerRadius="0.008"/>
+							</Shape>
+						</Transform>
+						<Transform DEF="Translation1Pointer" rotation="0 0 1 0" translation="0 0 0.003">
+							<Transform translation="0 0.05 0">
+								<Shape>
+									<Appearance>
+										<Material diffuseColor="1 0.4 0.4" emissiveColor="0.3 0.1 0.1"/>
+									</Appearance>
+									<Box size="0.008 0.04 0.001"/>
+								</Shape>
+							</Transform>
+						</Transform>
+						<Transform translation="0 -0.13 0">
+							<Shape>
+								<Text string='"Horizontal"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.03" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="0 0 0"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0.12 0">
+							<Shape>
+								<Text DEF="Translation1ValueText" string='"0"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="1 1 1"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+					<Transform translation="0 0 0.004">
+						<Shape>
+							<Appearance>
+								<Material transparency="0.99"/>
+							</Appearance>
+					<Disk2D outerRadius="0.08"/>
+						<TouchSensor DEF="Translation1Touch" enabled="true"/>
+					</Shape>
+				</Transform>
+			</Group>
+		</Transform>				<!-- LATERAL DIAL (-15 to 15 cm) -->
+			<Transform translation="0 -0.15 0">
+				<Group DEF="Translation2DialGroup">
+						<Shape>
+							<Appearance>
+								<Material diffuseColor="0.3 0.2 0.2"/>
+							</Appearance>
+							<Disk2D outerRadius="0.08"/>
+						</Shape>
+						<Transform translation="0 0 0.001">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.9 0.7 0.7" emissiveColor="0.3 0.2 0.2"/>
+								</Appearance>
+								<Disk2D innerRadius="0.075" outerRadius="0.08"/>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0 0.002">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.5 0.5 0.5"/>
+								</Appearance>
+								<Disk2D outerRadius="0.008"/>
+							</Shape>
+						</Transform>
+						<Transform DEF="Translation2Pointer" rotation="0 0 1 0" translation="0 0 0.003">
+							<Transform translation="0 0.05 0">
+								<Shape>
+									<Appearance>
+										<Material diffuseColor="1 0.4 0.4" emissiveColor="0.3 0.1 0.1"/>
+									</Appearance>
+									<Box size="0.008 0.04 0.001"/>
+								</Shape>
+							</Transform>
+						</Transform>
+						<Transform translation="0 -0.13 0">
+							<Shape>
+								<Text string='"Lateral"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.03" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="0 0 0"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0.12 0">
+							<Shape>
+								<Text DEF="Translation2ValueText" string='"0"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="1 1 1"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+					<Transform translation="0 0 0.004">
+						<Shape>
+							<Appearance>
+								<Material transparency="0.99"/>
+							</Appearance>
+					<Disk2D outerRadius="0.08"/>
+						<TouchSensor DEF="Translation2Touch" enabled="true"/>
+					</Shape>
+				</Transform>
+			</Group>
+		</Transform>				<!-- VERTICAL DIAL (0 to 46 cm) -->
+			<Transform translation="0.25 -0.15 0">
+				<Group DEF="Translation3DialGroup">
+						<Shape>
+							<Appearance>
+								<Material diffuseColor="0.3 0.2 0.2"/>
+							</Appearance>
+							<Disk2D outerRadius="0.08"/>
+						</Shape>
+						<Transform translation="0 0 0.001">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.9 0.7 0.7" emissiveColor="0.3 0.2 0.2"/>
+								</Appearance>
+								<Disk2D innerRadius="0.075" outerRadius="0.08"/>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0 0.002">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="0.5 0.5 0.5"/>
+								</Appearance>
+								<Disk2D outerRadius="0.008"/>
+							</Shape>
+						</Transform>
+						<Transform DEF="Translation3Pointer" rotation="0 0 1 0" translation="0 0 0.003">
+							<Transform translation="0 0.05 0">
+								<Shape>
+									<Appearance>
+										<Material diffuseColor="1 0.4 0.4" emissiveColor="0.3 0.1 0.1"/>
+									</Appearance>
+									<Box size="0.008 0.04 0.001"/>
+								</Shape>
+							</Transform>
+						</Transform>
+						<Transform translation="0 -0.13 0">
+							<Shape>
+								<Text string='"Vertical"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.03" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="0 0 0"/>
+								</Appearance>
+							</Shape>
+						</Transform>
+						<Transform translation="0 0.12 0">
+							<Shape>
+								<Text DEF="Translation3ValueText" string='"0"'>
+									<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD"/>
+								</Text>
+								<Appearance>
+									<Material diffuseColor="1 1 1"/>
+								</Appearance>
+							</Shape>
+					</Transform>
+				<Transform translation="0 0 0.004">
+					<Shape>
+						<Appearance>
+							<Material transparency="0.99"/>
+						</Appearance>
+						<Disk2D outerRadius="0.08"/>
+						<TouchSensor DEF="Translation2Touch" enabled="true"/>
+					</Shape>
+				</Transform>
+			</Group>
+		</Transform>				<!-- VERTICAL DIAL (0 to 46 cm) -->
+			<Transform translation="0.25 -0.15 0">
+				<Group DEF="Translation3DialGroup">
+					<Shape>
+						<Appearance>
+							<Material diffuseColor="0.3 0.2 0.2"/>
+						</Appearance>
+						<Disk2D outerRadius="0.08"/>
+					</Shape>
+					<Transform translation="0 0 0.001">
+						<Shape>
+							<Appearance>
+								<Material diffuseColor="0.9 0.7 0.7" emissiveColor="0.3 0.2 0.2"/>
+							</Appearance>
+							<Disk2D innerRadius="0.075" outerRadius="0.08"/>
+						</Shape>
+					</Transform>
+					<Transform translation="0 0 0.002">
+						<Shape>
+							<Appearance>
+								<Material diffuseColor="0.5 0.5 0.5"/>
+							</Appearance>
+							<Disk2D outerRadius="0.008"/>
+						</Shape>
+					</Transform>
+					<Transform DEF="Translation3Pointer" rotation="0 0 1 0" translation="0 0 0.003">
+						<Transform translation="0 0.05 0">
+							<Shape>
+								<Appearance>
+									<Material diffuseColor="1 0.4 0.4" emissiveColor="0.3 0.1 0.1"/>
+								</Appearance>
+								<Box size="0.008 0.04 0.001"/>
+							</Shape>
+						</Transform>
+					</Transform>
+					<Transform translation="0 -0.13 0">
+						<Shape>
+							<Text string='"Vertical"'>
+								<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.03" family="Lucida Sans" style="BOLD"/>
+							</Text>
+							<Appearance>
+								<Material diffuseColor="0 0 0"/>
+							</Appearance>
+						</Shape>
+					</Transform>
+					<Transform translation="0 0.12 0">
+						<Shape>
+							<Text DEF="Translation3ValueText" string='"0"'>
+								<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD"/>
+							</Text>
+							<Appearance>
+								<Material diffuseColor="1 1 1"/>
+							</Appearance>
+						</Shape>
+					</Transform>
+				<Transform translation="0 0 0.004">
+					<Shape>
+						<Appearance>
+							<Material transparency="0.99"/>
+						</Appearance>
+						<Disk2D outerRadius="0.08"/>
+						<TouchSensor DEF="Translation3Touch" enabled="true"/>
+					</Shape>
+				</Transform>
+			</Group>
+		</Transform>
+		</Group>		<!-- Hidden SliderBars for compatibility with existing code -->
+		<Group>
+			<SliderBar DEF="Rotation1Slider" valueRange="-100 100" value="0" stepLength="0.001" enabled="false"/>
+			<SliderBar DEF="Rotation2Slider" valueRange="-90 270" value="0" stepLength="0.001" enabled="false"/>
+			<SliderBar DEF="Rotation3Slider" valueRange="-10 10" value="0" stepLength="0.001" enabled="false"/>
+			<SliderBar DEF="Translation1Slider" valueRange="0 15" value="0" stepLength="0.5" enabled="false"/>
+			<SliderBar DEF="Translation2Slider" valueRange="-15 15" value="0" stepLength="0.5" enabled="false"/>
+			<SliderBar DEF="Translation3Slider" valueRange="0 46" value="0" stepLength="0.5" enabled="false"/>
+		</Group>
+
+		<!-- Python script to handle all dials -->
+		<PythonScript DEF="DialController" url="../lib/CircularDialsControl.py">
+			<!-- Rotation1 (Orbital) -->
+			<Transform USE="Rotation1Pointer" containerField="references"/>
+			<Text USE="Rotation1ValueText" containerField="references"/>
+			<TouchSensor USE="Rotation1Touch" containerField="references"/>
+			<!-- Rotation2 (Tilt) -->
+			<Transform USE="Rotation2Pointer" containerField="references"/>
+			<Text USE="Rotation2ValueText" containerField="references"/>
+			<TouchSensor USE="Rotation2Touch" containerField="references"/>
+			<!-- Rotation3 (Wigwag) -->
+			<Transform USE="Rotation3Pointer" containerField="references"/>
+			<Text USE="Rotation3ValueText" containerField="references"/>
+			<TouchSensor USE="Rotation3Touch" containerField="references"/>
+			<!-- Translation1 (Horizontal) -->
+			<Transform USE="Translation1Pointer" containerField="references"/>
+			<Text USE="Translation1ValueText" containerField="references"/>
+			<TouchSensor USE="Translation1Touch" containerField="references"/>
+			<!-- Translation2 (Lateral) -->
+			<Transform USE="Translation2Pointer" containerField="references"/>
+			<Text USE="Translation2ValueText" containerField="references"/>
+			<TouchSensor USE="Translation2Touch" containerField="references"/>
+			<!-- Translation3 (Vertical) -->
+			<Transform USE="Translation3Pointer" containerField="references"/>
+			<Text USE="Translation3ValueText" containerField="references"/>
+			<TouchSensor USE="Translation3Touch" containerField="references"/>
+			<!-- Hidden sliders -->
+			<SliderBar USE="Rotation1Slider" containerField="references"/>
+			<SliderBar USE="Rotation2Slider" containerField="references"/>
+			<SliderBar USE="Rotation3Slider" containerField="references"/>
+			<SliderBar USE="Translation1Slider" containerField="references"/>
+			<SliderBar USE="Translation2Slider" containerField="references"/>
+			<SliderBar USE="Translation3Slider" containerField="references"/>
+		</PythonScript>
+
+		<!-- Export the hidden sliders (existing code expects these) -->
+		<EXPORT AS='Rotation1Slider' localDEF='Rotation1Slider'/>	
+		<EXPORT AS='Rotation2Slider' localDEF='Rotation2Slider'/>	
+		<EXPORT AS='Rotation3Slider' localDEF='Rotation3Slider'/>	
+		<EXPORT AS='Translation1Slider' localDEF='Translation1Slider'/>	
+		<EXPORT AS='Translation2Slider' localDEF='Translation2Slider'/>	
+		<EXPORT AS='Translation3Slider' localDEF='Translation3Slider'/>
+		
+	</Group>
+
+</X3D>

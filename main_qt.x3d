@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+
+	<Inline DEF="INLINE_LIBRARIES" importMode="AUTO_IMPORT" url="components/libraries.x3d"/>
+
+	<MouseSensor DEF="mousesensor" />
+	<KeySensor DEF="keysensor" />
+	<NavigationInfo type='"NONE"' />
+	<StereoInfo interocularDistance="0.04" focalDistance="0.5" />
+
+
+	<Background skyColor="0 0 0" />
+
+	<Viewpoint 
+		description='Scene View' 
+		DEF='VSceneviewpoint' 
+		position='-6 0.974857 4.132998' 
+		orientation='-0.200411 -0.96497 -0.153955 0.630556' 
+		centerOfRotation='0 0 0' 
+		fieldOfView='0.91638' set_bind="true" />
+		
+	<Viewpoint 
+		DEF='VXRayView' 	
+		description='X-Ray View' 	
+		position='0 0 1' 	
+		orientation='1 0 0 0' 	
+		centerOfRotation='0 0 0' 	
+		fieldOfView='0.13' />
+
+	<ExternProtoDeclare name='PDFullScreenFrame' url='ui/ProtoDeclare_FullScreenFrame.x3d' />
+	<ProtoInstance name='PDFullScreenFrame' DEF='PIFullScreenFrameInstance'>
+		<fieldValue name='ViewpointPosition' value='-6 0.894857 3.802998' />
+		<fieldValue name='ViewpointOrientation' value='-0.190411 -0.96497 -0.153955 0.630556' />
+		<fieldValue name='ViewpointFOV' value='1.21638' />
+		<fieldValue name='DistanceToViewplane' value='1' />
+		<fieldValue name='SizeOfViewplane' value='16.6666667 10' />
+	</ProtoInstance>
+			
+
+	<!-- C-Arm 3D Model -->
+
+	<Transform DEF='TCArmTransform' rotation='0 0 1 0' translation='0 0 0' scale='1 1 1'>
+		<Inline DEF='ICarmModel' url='models/carm-model.x3d' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmOrbital' 		    exportedDEF='ETCarmOrbital' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmAngular' 		    exportedDEF='ETCarmAngular' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmYaw' 			    exportedDEF='ETCarmYaw' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmGlobalTransform' 	exportedDEF='ETCarmGlobalTransform' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmBeamOrigin' 			exportedDEF='ETCarmBeamOrigin' />
+		<IMPORT inlineDEF='ICarmModel' AS='ETCarmOffsetCorrection' 			exportedDEF='ETCarmOffsetCorrection' />
+	</Transform>
+	<!-- Patient Table with 6-DOF Control System -->
+	<Transform DEF='TPatientTableTransform' translation='0 -0.121 0.17' scale = "-1 1 1">
+		<ToggleGroup DEF='TGShowPatientTable' hapticsOn='false' graphicsOn='true'>
+			<Inline DEF='IPatientTableDOF' url='models/patient-table-dof.x3d' />
+			<IMPORT inlineDEF='IPatientTableDOF' AS='patientTableHeight' 		exportedDEF='ETPatientTableHeight' />
+			<IMPORT inlineDEF='IPatientTableDOF' AS='patientTableTilt' 			exportedDEF='ETPatientTableTilt' />
+			<IMPORT inlineDEF='IPatientTableDOF' AS='patientTableLateral' 		exportedDEF='ETPatientTableLateral' />
+			<IMPORT inlineDEF='IPatientTableDOF' AS='patientTableLongitudinal' 	exportedDEF='ETPatientTableLongitudinal' />
+			<IMPORT inlineDEF='IPatientTableDOF' AS='patientTableRotation' 		exportedDEF='ETPatientTableRotation' />
+			<IMPORT inlineDEF='IPatientTableDOF' AS='patientTableFlex' 			exportedDEF='ETPatientTableFlex' />
+		</ToggleGroup>
+	</Transform>
+
+		<MatrixTransform DEF="ImagePlane">
+			<FrameBufferTextureGenerator DEF='FBTGXRay' outputTextureType='2D' generateColorTextures='"RGBA"' height='1024' width='1024' update="ALWAYS">
+				<Viewpoint USE='VXRayView' containerField='viewpoint' />
+				<Background skyColor='0.95 0.95 0.95' containerField='background' />
+				<Group DEF='XRayScene'>
+					<!-- Volume data visualization -->
+					<ToggleGroup DEF='TGVolumeVisualization' graphicsOn='true'>
+					
+						<Transform DEF='TVolumeData'>
+							<Inline DEF='IVolumeData' url="test_data/general_loader.x3d" importMode="AUTO_IMPORT" />
+						</Transform>
+					</ToggleGroup>
+					
+				</Group>
+			</FrameBufferTextureGenerator>
+			
+			<Transform translation="2.9 3.5 0">
+				<Shape>
+					<Text string='"ROA: 0", "Caudal: 0"' DEF="CArmPosText">
+						<FontStyle justify='"BEGIN" "MIDDLE"' size="1" family="Lucida Sans" spacing="1" style="BOLD" />
+					</Text>
+					<Appearance>
+						<RenderProperties depthTestEnabled="false" />
+						<Material diffuseColor="1 1 1" />
+					</Appearance>
+				</Shape>
+			</Transform>
+
+			<PythonScript url='lib/XRay.py' DEF='PSXRay' />
+			<ROUTE fromNode='cArmBeamOrigin' fromField='accumulatedForward' toNode='PSXRay' toField='matrix2ViewpointTranslation' />
+			<ROUTE fromNode='cArmBeamOrigin' fromField='accumulatedForward' toNode='PSXRay' toField='matrix2ViewpointRotation' />
+	    
+			<ROUTE fromNode='FBTGXRay' fromField='colorTextures' toNode='PSXRay' toField='setXRayTextureReference' />	
+			
+			<ROUTE fromNode='PSXRay' fromField='matrix2ViewpointTranslation' toNode='VXRayView' toField='position' />
+			<ROUTE fromNode='PSXRay' fromField='matrix2ViewpointRotation' toNode='VXRayView' toField='orientation' />
+			
+			<!--Force window aspect ratio to 16:9 -->
+<!-- 			<ExternProtoDeclare name="ForceAspectRatio" url="ui/ProtoDeclare_ForceAspectRatio.x3d" />
+			<ProtoInstance name="ForceAspectRatio">
+				<fieldValue name="WidthRatio" value="16" />
+				<fieldValue name="HeightRatio" value="9" />
+			</ProtoInstance>
+ -->			
+			
+			<PythonScript url="lib/CarmModelMovement.py" DEF="CarmModelModelMovementScript">
+				<Translation USE="cArmOrbital" 			containerField="references" />
+				<Translation USE="cArmAngular" 			containerField="references" />
+				<Translation USE="cArmYaw" 				containerField="references" />
+				<Translation USE="cArmGlobalTransform" 	containerField="references" />
+			</PythonScript>
+			
+			<ToggleGroup DEF="cArmCircle" hapticsOn="false" graphicsOn="true">
+
+				<Transform translation="-1.8 0.3 0" scale="0.9 -0.9 1" rotation ="0 0 1 -1.57">
+				
+					<Shape>
+						<Appearance>
+							<RenderProperties />
+							<Material diffuseColor="255 255 255" />
+							<MultiTexture DEF="MT" />
+						</Appearance>
+						<Rectangle2D size="9 9" />
+					</Shape>
+		          <Shape>
+		            <Sphere radius='0.008' />
+		            <Appearance DEF='A'>
+					<Material diffuseColor='0.3 0.3 1' />
+					</Appearance>
+		          </Shape>
+				</Transform>
+			</ToggleGroup>
+			<ROUTE fromNode="FBTGXRay" fromField="colorTextures" toNode="MT" toField="texture" />
+
+
+			<PythonScript DEF = "Convert" url = "lib/Convert.py" />
+			<ROUTE fromNode="CarmModelModelMovementScript" fromField="rotation1" toNode="Convert" toField="carm2MFString" />	
+			<ROUTE fromNode="CarmModelModelMovementScript" fromField="rotation2" toNode="Convert" toField="carm2MFString" />	
+			<ROUTE fromNode="CarmModelModelMovementScript" fromField="rotation3" toNode="Convert" toField="carm2MFString" />	
+			<ROUTE fromNode="CarmModelModelMovementScript" fromField="translation1" toNode="Convert" toField="carm2MFString" />	
+			<ROUTE fromNode="CarmModelModelMovementScript" fromField="translation2" toNode="Convert" toField="carm2MFString" />	
+			<ROUTE fromNode="CarmModelModelMovementScript" fromField="translation3" toNode="Convert" toField="carm2MFString" />	
+			<ROUTE fromNode="Convert" fromField="carm2MFString" toNode="CArmPosText" toField="string" />
+
+
+
+		</MatrixTransform>
+
+								
+	
+	<ROUTE fromNode='PIFullScreenFrameInstance' fromField='ViewplaneMatrix' toNode='ImagePlane' toField='matrix' />
+
+	
+	
+</Scene>
+ 

@@ -1,0 +1,4 @@
+Quaternion_mean_euclidean_diff(rotation error) = 0.00
+Abs_mean_Tx_err = 0.00
+Abs_mean_Ty_err = 0.00
+Abs_mean_Tz_err = 0.00

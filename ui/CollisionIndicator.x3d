@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Collision Status Indicator for H3D Viewer -->
+<X3D profile="Full" version="3.2">
+<Scene>
+<Group>
+	<!-- Collision Warning Light -->
+	<Transform DEF="TCollisionIndicator" translation="2 1.5 5" scale="0.3 0.3 0.3">
+		<Shape>
+			<Appearance>
+				<Material DEF="MCollisionMaterial" diffuseColor="0 1 0" emissiveColor="0 0.3 0" transparency="0.2" />
+			</Appearance>
+			<Sphere radius="1" />
+		</Shape>
+	</Transform>
+	
+	<!-- Collision Status Text -->
+	<Transform translation="2 1 5" scale="0.5 0.5 0.5">
+		<Billboard>
+			<Shape>
+				<Text DEF="TCollisionStatus" string='"SAFE"'>
+					<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.3" family="SANS" style="BOLD" />
+				</Text>
+				<Appearance>
+					<Material DEF="MCollisionTextMaterial" diffuseColor="0 1 0" emissiveColor="0 0.5 0" />
+				</Appearance>
+			</Shape>
+		</Billboard>
+	</Transform>
+	
+	<!-- Collision Point Counter -->
+	<Transform translation="2 0.6 5" scale="0.4 0.4 0.4">
+		<Billboard>
+			<Shape>
+				<Text DEF="TCollisionPoints" string='"0 points"'>
+					<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.15" family="SANS" />
+				</Text>
+				<Appearance>
+					<Material diffuseColor="1 1 1" />
+				</Appearance>
+			</Shape>
+		</Billboard>
+	</Transform>
+	
+	<!-- Collision Statistics (optional, for debugging) -->
+	<Transform translation="2 0.3 5" scale="0.3 0.3 0.3">
+		<Billboard>
+			<Shape>
+				<Text DEF="TCollisionStats" string='"Checks: 0"'>
+					<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.12" family="SANS" />
+				</Text>
+				<Appearance>
+					<Material diffuseColor="0.7 0.7 0.7" />
+				</Appearance>
+			</Shape>
+		</Billboard>
+	</Transform>
+</Group>
+
+<!-- Export nodes so they can be imported by main.x3d -->
+<EXPORT localDEF="MCollisionMaterial" AS="MCollisionMaterial" />
+<EXPORT localDEF="TCollisionStatus" AS="TCollisionStatus" />
+<EXPORT localDEF="TCollisionPoints" AS="TCollisionPoints" />
+<EXPORT localDEF="TCollisionStats" AS="TCollisionStats" />
+
+</Scene>
+</X3D>

@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+	<FontStyleNode>
+		<FontStyle DEF="HelveticaFont" family="'Helvetica'" justify='"MIDDLE" "MIDDLE"' />
+	</FontStyleNode>
+	
+	<Inline DEF="INLINE_LIBRARIES" importMode="AUTO_IMPORT" url="components/libraries.x3d"/>
+
+	<MouseSensor DEF="mousesensor" />
+	<KeySensor DEF="keysensor" />
+	<NavigationInfo type='"NONE"' />
+	<StereoInfo interocularDistance="0.04" focalDistance="0.5" />
+
+	<Background skyColor="0.937 0.937 0.933" />
+	<Viewpoint description='Scene View' DEF='VSceneviewpoint' position='-3.654221 0.974857 4.132998' orientation='-0.200411 -0.96497 -0.153955 0.630556' centerOfRotation='0 0 0' fieldOfView='0.91638' set_bind="true" />
+	<Viewpoint DEF='VXRayView' 	description='X-Ray View' 	position='0 0 1.5' 	orientation='1 0 0 0' 	centerOfRotation='0 0 0' 	fieldOfView='0.13' />
+
+	<ExternProtoDeclare name='PDFullScreenFrame' url='ui/ProtoDeclare_FullScreenFrame.x3d' />
+	<ProtoInstance name='PDFullScreenFrame' DEF='PIFullScreenFrameInstance'>
+		<fieldValue name='ViewpointPosition' value='-3.444221 0.894857 3.802998' />
+		<fieldValue name='ViewpointOrientation' value='-0.190411 -0.96497 -0.153955 0.630556' />
+		<fieldValue name='ViewpointFOV' value='1.21638' />
+		<fieldValue name='DistanceToViewplane' value='1' />
+		<fieldValue name='SizeOfViewplane' value='16.6666667 10' />
+	</ProtoInstance>
+			
+
+	
+	<!-- C-Arm 3D Model -->
+
+	<Transform DEF='TCArmTransform' rotation='0 0 1 0' translation='0 0 0' scale='1.35 1.35 1.35'>
+		<Inline DEF='ICarmModel' url='models/carm-model.x3d' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmOrbital' 		    exportedDEF='ETCarmOrbital' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmAngular' 		    exportedDEF='ETCarmAngular' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmYaw' 			    exportedDEF='ETCarmYaw' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmGlobalTransform' 	exportedDEF='ETCarmGlobalTransform' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmBeamOrigin' 			exportedDEF='ETCarmBeamOrigin' />
+		<IMPORT inlineDEF='ICarmModel' AS='ETCarmOffsetCorrection' 			exportedDEF='ETCarmOffsetCorrection' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmTelescopingPole' 		exportedDEF='ETTelescopingPole' />
+		<IMPORT inlineDEF='ICarmModel' AS='cArmPoleCylinder' 		exportedDEF='ETTelescopingPoleCylinder' />
+	</Transform>
+	
+	<!-- Patient Table (3 parts) - All rotated together -->
+	<Transform DEF='TTableRotation' translation='0.3 -0.3 0' rotation='0 1 0 1.5708' scale='1.2 1.2 1.2'>
+		<!-- Table Top - positioned just below patient, centered over body -->
+		<Transform DEF='TTableTopBase' translation='0.325 0 0'>
+			<Transform rotation='0 0 1 1.5708'>
+				<Inline DEF='ITableTop' url='models/table_top_watertight_mesh.x3d' />
+			</Transform>
+		</Transform>
+		
+		<!-- Table Body - center position, below table top -->
+		<Transform DEF='TTableBodyTransform' translation='0.4 -0.6 0'>
+			<Inline DEF='ITableBody' url='models/table_body_sphere_watertight_mesh.x3d' />
+		</Transform>
+		
+		<!-- Table Wheels Base - at bottom -->
+		<Transform DEF='TTableWheelsTransform' translation='0.25 -0.6 0'>
+			<Inline DEF='ITableWheels' url='models/table_wheels_base_watertight_mesh.x3d' />
+		</Transform>
+	</Transform>
+	
+	<!-- Patient Only (No Table) -->
+	<Transform DEF='TPatientTransform' translation='0.3 -0.15 -0.34' scale = "-1.2 1.2 -1.2">
+		<ToggleGroup DEF='TGShowPatient' hapticsOn='false' graphicsOn='true'>
+			<Inline DEF='IPatientModel' url='models/patient-model.x3d' />
+		</ToggleGroup>
+	</Transform>
+				
+	<MatrixTransform DEF="ImagePlane">
+		<!-- OPTION 1: Built-in Volume Rendering (fast but basic) -->
+		<ToggleGroup DEF="cArmCircle" hapticsOn="false" graphicsOn="false">
+			<Transform translation="-4 1.24 0" scale="0.65 -0.65 1" rotation ="0 0 1 -1.57">
+				<Shape>
+					<Appearance>
+						<RenderProperties />
+						<MultiTexture DEF="MT" />
+					</Appearance>
+					<Disk2D outerRadius="4.5" />
+				</Shape>
+				<!-- Collision Status Border -->
+				<Shape>
+					<Appearance>
+						<Material DEF="MXRayBorderMaterial" diffuseColor="0 1 0" emissiveColor="0 0.3 0" transparency="0" />
+					</Appearance>
+					<Disk2D outerRadius="4.6" innerRadius="4.5" />
+				</Shape>
+			</Transform>
+		</ToggleGroup>
+		<!-- OPTION 2: DiffDRR Photorealistic X-ray (requires drr_server.py running) -->
+		<ToggleGroup DEF="DRRCircle" hapticsOn="false" graphicsOn="true">
+			<Transform translation="-4 1.24 0" scale="0.65 -0.65 1" rotation ="0 0 1 -1.57">
+				<Shape>
+					<Appearance>
+						<RenderProperties />
+						<ImageTexture DEF="DRRTexture" url="drr_live.png" repeatS="false" repeatT="false" />
+					</Appearance>
+					<Disk2D outerRadius="4.5" />
+				</Shape>
+				<!-- Collision Status Border (same as above) -->
+				<Shape>
+					<Appearance>
+						<Material USE="MXRayBorderMaterial" />
+					</Appearance>
+					<Disk2D outerRadius="4.6" innerRadius="4.5" />
+				</Shape>
+			</Transform>
+		</ToggleGroup>
+		
+		<!-- DRR Mode Toggle Button (hidden - DRR mode on by default) -->
+		<ToggleGroup DEF="DRRButtonHidden" hapticsOn="false" graphicsOn="false">
+		<Transform translation="-7 3.8 0" scale="2.5 2.5 2.5">
+			<Frame desiredSize="0.35 0.08 0.0001">
+				<TouchButton DEF="DRRModeToggle" buttonMode="TOGGLE_RELEASE" state="true" text="DRR Mode: ON">
+					<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.05" family="Lucida Sans" spacing="1" style="BOLD" />
+					<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+					<Appearance>
+						<Material diffuseColor="0.2 0.2 0.3" />
+					</Appearance>
+				</TouchButton>
+			</Frame>
+		</Transform>
+		</ToggleGroup>
+		
+		<!-- Segmentation Dropdown Panel -->
+		<Transform translation="4 4.80 0" scale="6 6 6">
+			<Frame desiredSize="0.18 0.05 0.0001">
+				<GridLayoutEngine DEF="SegHeaderGrid" gridRows="1" gridCols="1" />
+				<TouchButton DEF="SegmentDropdownToggle" buttonMode="TOGGLE_RELEASE" state="false" text="Segments" isToggled="false">
+					<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.04" family="Lucida Sans" style="BOLD" />
+					<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+					<Appearance>
+						<Material diffuseColor="0.75 0.75 0.75" transparency="0.1" />
+					</Appearance>
+				</TouchButton>
+			</Frame>
+		</Transform>
+		
+		<!-- Dropdown Options (initially hidden) -->
+		<ToggleGroup DEF="SegmentationButtons" hapticsOn="false" graphicsOn="false">
+			<Transform translation="4 3.58 0" scale="6 6 6">
+				<Frame desiredSize="0.18 0.36 0.0001">
+						<GridLayoutEngine DEF="SegButtonsGrid" gridRows="6" gridCols="1" />
+						<TouchButton DEF="SegRibsToggle" buttonMode="TOGGLE_RELEASE" state="false" text="Ribs">
+							<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD" />
+							<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.002 0.002" sticky="W+E+N+S" />
+							<Appearance><Material transparency="0.1" /></Appearance>
+						</TouchButton>
+						<TouchButton DEF="SegVertebraeToggle" buttonMode="TOGGLE_RELEASE" state="false" text="Spine">
+							<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD" />
+							<GridInfo columnSpan="1" rowSpan="1" column="0" row="1" padding="0.002 0.002" sticky="W+E+N+S" />
+							<Appearance><Material transparency="0.1" /></Appearance>
+						</TouchButton>
+						<TouchButton DEF="SegOrgansToggle" buttonMode="TOGGLE_RELEASE" state="false" text="Organs">
+							<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD" />
+							<GridInfo columnSpan="1" rowSpan="1" column="0" row="2" padding="0.002 0.002" sticky="W+E+N+S" />
+							<Appearance><Material transparency="0.1" /></Appearance>
+						</TouchButton>
+						<TouchButton DEF="SegCardioToggle" buttonMode="TOGGLE_RELEASE" state="false" text="Heart">
+							<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD" />
+							<GridInfo columnSpan="1" rowSpan="1" column="0" row="3" padding="0.002 0.002" sticky="W+E+N+S" />
+							<Appearance><Material transparency="0.1" /></Appearance>
+						</TouchButton>
+						<TouchButton DEF="SegBonesToggle" buttonMode="TOGGLE_RELEASE" state="false" text="Skeleton">
+							<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD" />
+							<GridInfo columnSpan="1" rowSpan="1" column="0" row="4" padding="0.002 0.002" sticky="W+E+N+S" />
+							<Appearance><Material transparency="0.1" /></Appearance>
+						</TouchButton>
+						<TouchButton DEF="SegMusclesToggle" buttonMode="TOGGLE_RELEASE" state="false" text="Muscles">
+							<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.035" family="Lucida Sans" style="BOLD" />
+							<GridInfo columnSpan="1" rowSpan="1" column="0" row="5" padding="0.002 0.002" sticky="W+E+N+S" />
+							<Appearance><Material transparency="0.1" /></Appearance>
+						</TouchButton>
+				</Frame>
+			</Transform>
+		</ToggleGroup>
+									
+			
+	<ToggleGroup DEF="sliders" hapticsOn="false" graphicsOn="true">
+		<Transform translation="6 2 0" scale="6 6 6">
+			<Inline DEF="slidersInline" url="ui/CArmSliders.x3d" />
+		</Transform>	
+	</ToggleGroup>	<!-- Import C-arm Slider References -->
+		<IMPORT inlineDEF="slidersInline" exportedDEF="Rotation1Slider" AS="Rotation1Slider" />
+		<IMPORT inlineDEF="slidersInline" exportedDEF="Rotation2Slider" AS="Rotation2Slider" />
+		<IMPORT inlineDEF="slidersInline" exportedDEF="Rotation3Slider" AS="Rotation3Slider" />
+		<IMPORT inlineDEF="slidersInline" exportedDEF="Translation1Slider" AS="Translation1Slider" />
+		<IMPORT inlineDEF="slidersInline" exportedDEF="Translation2Slider" AS="Translation2Slider" />
+		<IMPORT inlineDEF="slidersInline" exportedDEF="Translation3Slider" AS="Translation3Slider" />
+		
+	<!-- Table DOF Sliders (3 DOF: Vertical, Longitudinal, Transverse) -->
+	<ToggleGroup DEF="tableSliders" hapticsOn="false" graphicsOn="true">
+		<Transform translation="6 -2.5 0" scale="7 7 7">
+			<Inline DEF="tableSlidersInline" url="ui/TableSliders.x3d" importMode="AUTO_IMPORT" />
+		</Transform>	
+	</ToggleGroup>		<!-- Import Table Slider References -->
+		<IMPORT inlineDEF="tableSlidersInline" exportedDEF="TableVerticalSlider" AS="TableVerticalSlider" />
+		<IMPORT inlineDEF="tableSlidersInline" exportedDEF="TableLongitudinalSlider" AS="TableLongitudinalSlider" />
+		<IMPORT inlineDEF="tableSlidersInline" exportedDEF="TableTransverseSlider" AS="TableTransverseSlider" />
+		
+		<!-- Zoom Slider - Always visible, positioned above Reset All button -->
+		<ToggleGroup DEF="zoomSliderToggle" hapticsOn="false" graphicsOn="true">
+			<Transform translation="1 -3.0 0" scale="4 4 4">
+				<Frame desiredSize="0.28 0.12 0.0001">
+					<Label text="Zoom">
+						<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.05" family="Lucida Sans" spacing="1" style="BOLD" />
+						<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor="0 0 0" />
+						</Appearance>
+					</Label>
+					<SliderBar DEF="zoomSlider" valueRange="0.5 2.5" value="1.0" stepLength="0.01" markerColor="1 0.5 0" horizontal="true" enabled="true">
+						<GridInfo columnSpan="1" rowSpan="1" column="0" row="1" padding="0.001 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor="0 0 0" />
+						</Appearance>
+						<Appearance containerField="appearance">
+							<Material diffuseColor="0.7 0.7 0.7" transparency="0.3" />
+						</Appearance>
+					</SliderBar>
+				</Frame>
+			</Transform>	
+	</ToggleGroup>
+	<!-- showZoomSlider script removed - zoom slider is now always visible -->
+	
+	<!-- COLLISION DETECTION - Material definition (hidden shape) -->
+	<Transform scale="0 0 0">
+		<Shape>
+			<Appearance>
+				<Material DEF="MCollisionMaterial" diffuseColor="0 1 0" emissiveColor="0 0.3 0" transparency="0.2" />
+			</Appearance>
+			<Box size="1 1 1" />
+		</Shape>
+	</Transform>
+	
+	<!-- Collision Status Indicator below X-ray -->
+	<Transform translation="-4 -2.8 0">
+		<!-- Status circle -->
+		<Transform translation="-0.5 0 0">
+			<Shape>
+				<Appearance>
+					<Material DEF="MCollisionStatusCircle" diffuseColor="0 1 0" emissiveColor="0 0.5 0" />
+				</Appearance>
+				<Disk2D outerRadius="0.15" />
+			</Shape>
+		</Transform>
+		<!-- Status text -->
+		<Transform translation="0 0 0">
+			<Shape>
+				<Text string='"No Collision"' DEF="TCollisionStatusText">
+					<FontStyle justify='"BEGIN" "MIDDLE"' size="0.35" family="Lucida Sans" spacing="1" style="BOLD" />
+				</Text>
+				<Appearance>
+					<RenderProperties depthTestEnabled="false" />
+					<Material DEF="MCollisionStatusText" diffuseColor="0 0.6 0" />
+				</Appearance>
+			</Shape>
+		</Transform>
+	</Transform>
+		
+		
+		
+		<ToggleGroup DEF="SidesSwitchToggleGroup" hapticsOn="false" graphicsOn="false">
+			<!-- HIDDEN: Both Sides, Right Side, Left Side buttons removed -->
+			<Transform translation="3.3 1.9 0" scale="12 12 12">
+				<Frame desiredSize="0.15 0.1 0.0001">
+					<TouchButton DEF="BothSideSwitch" buttonMode="TOGGLE_RELEASE" state="false" text = "Both Sides">
+						<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.075" family="Lucida Sans" spacing="1" style="BOLD" />
+						<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+					</TouchButton>
+				</Frame>
+    
+			</Transform>
+			<Transform translation="5.3 1.9 0" scale="12 12 12">
+				<Frame desiredSize="0.15 0.1 0.0001">
+					<TouchButton DEF="RightSideSwitch" buttonMode="TOGGLE_RELEASE" state="false" text = "Right Side">
+						<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.075" family="Lucida Sans" spacing="1" style="BOLD" />
+						<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+					</TouchButton>
+				</Frame>
+    
+			</Transform>	
+			<Transform translation="7.27 1.9 0" scale="12 12 12">
+				<Frame desiredSize="0.15 0.1 0.0001">
+					<TouchButton DEF="LeftSideSwitch" buttonMode="TOGGLE_RELEASE" state="false" text = "Left Side">
+						<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.075" family="Lucida Sans" spacing="1" style="BOLD" />
+						<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+					</TouchButton>
+				</Frame>
+    
+			</Transform>	
+		</ToggleGroup>
+			
+			
+		<!-- Angles Title -->
+		<Transform translation="1 3.5 0">
+			<Shape>
+				<Text string='"Angles"'>
+					<FontStyle justify='"BEGIN" "MIDDLE"' size="0.35" family="Lucida Sans" spacing="1" style="BOLD" />
+				</Text>
+				<Appearance>
+					<RenderProperties depthTestEnabled="false" />
+					<Material diffuseColor="0 0 0" />
+				</Appearance>
+			</Shape>
+		</Transform>
+		
+		<Transform translation="1 3.0 0">
+			<Shape>
+				<Text string='"LAO 0", "CAU 0", "WIG 0", "LAT 0 cm", "HOR 0 cm", "VER 0 cm"' DEF="CArmPosText">
+					<FontStyle justify='"BEGIN" "MIDDLE"' size="0.3" family="Lucida Sans" spacing="1" style="BOLD" />
+				</Text>
+				<Appearance>
+					<RenderProperties depthTestEnabled="false" />
+					<Material diffuseColor="0 0 0" />
+				</Appearance>
+			</Shape>
+		</Transform>
+		
+		<!-- Reset All Button -->
+		<Transform translation="1 -3.5 0" scale="3 3 3">
+			<Frame desiredSize="0.38 0.1 0.0001">
+				<TouchButton DEF="ResetAllButton" buttonMode="PRESS_RELEASE" state="false" text="Reset All">
+					<FontStyle justify='"MIDDLE" "MIDDLE"' size="0.085" family="Lucida Sans" spacing="1" style="BOLD" />
+					<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+					<Appearance>
+						<Material transparency="0.1"/>
+					</Appearance>
+				</TouchButton>
+			</Frame>
+		</Transform>
+		
+		<ToggleGroup DEF="fineAdjustButtons" hapticsOn="false" graphicsOn="true">
+	<Transform translation="-4 4.5 0" scale="2.5 2.5 2.5">
+		<Frame desiredSize="0.3 0.2 0.0001">
+			<TouchButton DEF="fineAdjustButtonUp">
+				<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+				<ImageTexture url="images/arrowUp.png" />
+						<Appearance>
+							<Material transparency="0.2"/>
+						</Appearance>
+					</TouchButton>
+				</Frame>
+			</Transform>
+	<Transform translation="-4 -2 0" scale="2.5 2.5 2.5">
+		<Frame desiredSize="0.3 0.2 0.0001">
+			<TouchButton DEF="fineAdjustButtonDown">
+				<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+				<ImageTexture url="images/arrowDown.png" />
+						<Appearance>
+							<Material transparency="0.2"/>
+						</Appearance>
+					</TouchButton>
+				</Frame>
+			</Transform>
+	<Transform translation="-0.8 1.24 0" scale="2.5 2.5 2.5">
+		<Frame desiredSize="0.2 0.3 0.0001">
+			<TouchButton DEF="fineAdjustButtonRight">
+				<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+				<ImageTexture url="images/arrowRight.png" />
+						<Appearance>
+							<Material transparency="0.2"/>
+						</Appearance>
+					</TouchButton>
+				</Frame>
+			</Transform>
+	<Transform translation="-7.2 1.24 0" scale="2.5 2.5 2.5">
+		<Frame desiredSize="0.2 0.3 0.0001">
+			<TouchButton DEF="fineAdjustButtonLeft">
+				<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+				<ImageTexture url="images/arrowLeft.png" />
+						<Appearance>
+							<Material transparency="0.2"/>
+						</Appearance>
+					</TouchButton>
+				</Frame>
+			</Transform>			
+		</ToggleGroup>
+    
+    
+    
+    
+	<FrameBufferTextureGenerator DEF='FBTGXRay' outputTextureType='2D' generateColorTextures='"RGBA"' height='512' width='512' update="ALWAYS">
+		<Viewpoint USE='VXRayView' containerField='viewpoint' />
+		<Background skyColor='0.1 0.1 0.1' containerField='background' />
+		<Group DEF='XRayScene'>
+			<!-- Volume data visualization using NRRD -->
+			<ToggleGroup DEF='TGVolumeVisualization' graphicsOn='true'>
+				<Transform DEF='TVolumeData' scale='0.2 0.2 0.2' translation='0 0 0'>
+					<VolumeData DEF="V1" dimensions='1.0 1.0 0.7'>
+						<ImageTexture3D containerField="voxels" url="test_data/P05_Enhanced_proper.nrrd" DEF="T1" />
+						<OpacityMapVolumeStyle containerField="renderStyle">
+							<Texture containerField="transferFunction">
+								<PixelTexture image='2 1 1 0x00 0xFF' repeatS='false' repeatT='false' />
+							</Texture>
+						</OpacityMapVolumeStyle>
+					</VolumeData>
+				</Transform>
+			</ToggleGroup>
+						</Group>
+		</FrameBufferTextureGenerator>
+		<ROUTE fromNode="FBTGXRay" fromField="colorTextures" toNode="MT" toField="texture" />
+		
+		<PythonScript url='lib/XRay.py' DEF='PSXRay' />
+		<ROUTE fromNode='cArmBeamOrigin' 	fromField='accumulatedForward' 						toNode='PSXRay' 					toField='matrix2ViewpointTranslation' />
+		<ROUTE fromNode='cArmBeamOrigin'    fromField='accumulatedForward' 						toNode='PSXRay' 					toField='matrix2ViewpointRotation' />
+    
+		<ROUTE fromNode='FBTGXRay' 					fromField='colorTextures' 							toNode='PSXRay' 					toField='setXRayTextureReference' />	
+		
+		<ROUTE fromNode='PSXRay' 					fromField='matrix2ViewpointTranslation' 			toNode='VXRayView' 					toField='position' />
+		<ROUTE fromNode='PSXRay' 					fromField='matrix2ViewpointRotation' 				toNode='VXRayView' 					toField='orientation' />
+		
+
+		
+		<!--Force window aspect ratio to 16:9 -->
+		<ExternProtoDeclare name="ForceAspectRatio" url="ui/ProtoDeclare_ForceAspectRatio.x3d" />
+		<ProtoInstance name="ForceAspectRatio">
+			<fieldValue name="WidthRatio" value="16" />
+			<fieldValue name="HeightRatio" value="9" />
+		</ProtoInstance>
+		
+		
+		<Transform translation="-1.85 -3.95 0" scale="1.75 1.75 1.75">
+			<Inline DEF="stdPosButtons" url="ui/standardPositions.x3d" importMode="AUTO_IMPORT" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD0Touch" AS="STD0Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD1Touch" AS="STD1Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD2Touch" AS="STD2Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD3Touch" AS="STD3Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD4Touch" AS="STD4Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD5Touch" AS="STD5Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD6Touch" AS="STD6Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD7Touch" AS="STD7Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD8Touch" AS="STD8Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD9Touch" AS="STD9Touch" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD0Label" AS="STD0Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD1Label" AS="STD1Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD2Label" AS="STD2Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD3Label" AS="STD3Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD4Label" AS="STD4Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD5Label" AS="STD5Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD6Label" AS="STD6Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD7Label" AS="STD7Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD8Label" AS="STD8Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD9Label" AS="STD9Label" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD0Texture" AS="STD0Texture" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD1Texture" AS="STD1Texture" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD2Texture" AS="STD2Texture" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD3Texture" AS="STD3Texture" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD4Texture" AS="STD4Texture" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD5Texture" AS="STD5Texture" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD6Texture" AS="STD6Texture" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD7Texture" AS="STD7Texture" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD8Texture" AS="STD8Texture" />
+			<IMPORT inlineDEF="stdPosButtons" exportedDEF="STD9Texture" AS="STD9Texture" />
+		</Transform>
+		
+		
+	<PythonScript url="lib/CarmModelMovement.py" DEF="CarmModelModelMovementScript">
+		<Translation USE="cArmOrbital" 			containerField="references" />
+		<Translation USE="cArmAngular" 			containerField="references" />
+		<Translation USE="cArmYaw" 				containerField="references" />
+		<Translation USE="cArmGlobalTransform" 	containerField="references" />
+		<Transform USE="cArmTelescopingPole" 	containerField="references" />
+		<Cylinder USE="cArmPoleCylinder" 		containerField="references" />
+	</PythonScript>
+	
+	<!-- PATIENT TABLE MOVEMENT (3 DOF) -->
+	<PythonScript url="lib/PatientTableMovementSimple.py" DEF="TableMovement">
+		<Transform USE="TTableTopBase" containerField="references" />
+		<Transform USE="TTableBodyTransform" containerField="references" />
+		<Transform USE="TTableWheelsTransform" containerField="references" />
+		<Transform USE="TPatientTransform" containerField="references" />
+	</PythonScript>		<!-- COLLISION DETECTION CLIENT (6 C-arm + 3 Table DOF) -->
+		<PythonScript url="lib/CollisionClient.py" DEF="CollisionClient">
+			<!-- C-arm slider references -->
+			<SliderBar USE="Rotation1Slider" containerField="references" />
+			<SliderBar USE="Rotation2Slider" containerField="references" />
+			<SliderBar USE="Rotation3Slider" containerField="references" />
+			<SliderBar USE="Translation1Slider" containerField="references" />
+			<SliderBar USE="Translation2Slider" containerField="references" />
+			<SliderBar USE="Translation3Slider" containerField="references" />
+			<!-- Table slider references -->
+			<SliderBar USE="TableVerticalSlider" containerField="references" />
+			<SliderBar USE="TableLongitudinalSlider" containerField="references" />
+		<SliderBar USE="TableTransverseSlider" containerField="references" />
+		<!-- Zoom slider reference (for DRR magnification) -->
+		<SliderBar USE="zoomSlider" containerField="references" />
+		<!-- Collision indicator materials -->
+		<Material USE="MCollisionMaterial" containerField="references" />
+		<Material USE="MXRayBorderMaterial" containerField="references" />
+		<!-- Status indicator materials and text -->
+		<Material USE="MCollisionStatusCircle" containerField="references" />
+		<Material USE="MCollisionStatusText" containerField="references" />
+		<Text USE="TCollisionStatusText" containerField="references" />
+	</PythonScript>
+	
+	<!-- DRR TEXTURE CONTROLLER (auto-reloads drr_live.png) -->
+	<PythonScript url="lib/DRRModeController.py" DEF="DRRModeController">
+		<ToggleGroup USE="cArmCircle" containerField="references" />
+		<ToggleGroup USE="DRRCircle" containerField="references" />
+		<ImageTexture USE="DRRTexture" containerField="references" />
+		<TouchButton USE="DRRModeToggle" containerField="references" />
+	</PythonScript>
+	<ROUTE fromNode="DRRModeToggle" fromField="state" toNode="DRRModeController" toField="drrModeToggle" />
+	
+	<!-- SEGMENTATION CONTROLLER (anatomical structure overlay) -->
+	<PythonScript url="lib/SegmentationController.py" DEF="SegmentationController">
+		<TouchButton USE="SegRibsToggle" containerField="references" />
+		<TouchButton USE="SegVertebraeToggle" containerField="references" />
+		<TouchButton USE="SegOrgansToggle" containerField="references" />
+		<TouchButton USE="SegCardioToggle" containerField="references" />
+		<TouchButton USE="SegBonesToggle" containerField="references" />
+		<TouchButton USE="SegMusclesToggle" containerField="references" />
+	</PythonScript>
+	<ROUTE fromNode="SegRibsToggle" fromField="state" toNode="SegmentationController" toField="ribsToggle" />
+	<ROUTE fromNode="SegVertebraeToggle" fromField="state" toNode="SegmentationController" toField="vertebraeToggle" />
+	<ROUTE fromNode="SegOrgansToggle" fromField="state" toNode="SegmentationController" toField="organsToggle" />
+	<ROUTE fromNode="SegCardioToggle" fromField="state" toNode="SegmentationController" toField="cardiacToggle" />
+	<ROUTE fromNode="SegBonesToggle" fromField="state" toNode="SegmentationController" toField="skeletonToggle" />
+	<ROUTE fromNode="SegMusclesToggle" fromField="state" toNode="SegmentationController" toField="musclesToggle" />
+	
+	<!-- Dropdown toggle to show/hide segment options -->
+	<ROUTE fromNode="SegmentDropdownToggle" fromField="state" toNode="SegmentationButtons" toField="graphicsOn" />
+	
+	<PythonScript url="lib/CarmSTDPositions.py" DEF="CarmSTDPositions">
+			<SliderBar USE="Rotation1Slider" 		containerField="references" />
+			<SliderBar USE="Rotation2Slider" 		containerField="references" />
+			<SliderBar USE="Rotation3Slider" 		containerField="references" />
+			<SliderBar USE="Translation1Slider" 	containerField="references" />
+			<SliderBar USE="Translation2Slider" 	containerField="references" />
+			<SliderBar USE="Translation3Slider" 	containerField="references" />
+			<Label USE="STD0Label" 					containerField="references" />
+			<Label USE="STD1Label" 					containerField="references" />
+			<Label USE="STD2Label" 					containerField="references" />
+			<Label USE="STD3Label" 					containerField="references" />
+			<Label USE="STD4Label" 					containerField="references" />
+			<Label USE="STD5Label" 					containerField="references" />
+			<Label USE="STD6Label" 					containerField="references" />
+			<ImageTexture USE="STD0Texture" 		containerField="references" />
+			<ImageTexture USE="STD1Texture" 		containerField="references" />
+			<ImageTexture USE="STD2Texture" 		containerField="references" />
+			<ImageTexture USE="STD3Texture" 		containerField="references" />
+			<ImageTexture USE="STD4Texture" 		containerField="references" />
+			<ImageTexture USE="STD5Texture" 		containerField="references" />
+			<ImageTexture USE="STD6Texture" 		containerField="references" />
+			<TouchButton USE="STD0Touch" 			containerField="references" />
+			<TouchButton USE="STD1Touch" 			containerField="references" />
+			<TouchButton USE="STD2Touch" 			containerField="references" />
+			<TouchButton USE="STD3Touch" 			containerField="references" />
+			<TouchButton USE="STD4Touch" 			containerField="references" />
+			<TouchButton USE="STD5Touch" 			containerField="references" />
+			<TouchButton USE="STD6Touch" 			containerField="references" />
+			<Label USE="STD7Label" 					containerField="references" />
+			<ImageTexture USE="STD7Texture" 		containerField="references" />
+			<TouchButton USE="STD7Touch" 			containerField="references" />
+			<Label USE="STD8Label" 					containerField="references" />
+			<ImageTexture USE="STD8Texture" 		containerField="references" />
+			<TouchButton USE="STD8Touch" 			containerField="references" />
+			<Label USE="STD9Label" 					containerField="references" />
+			<ImageTexture USE="STD9Texture" 		containerField="references" />
+			<TouchButton USE="STD9Touch" 			containerField="references" />
+			<Translation USE="cArmOrbital" 			containerField="references" />
+			<Translation USE="cArmAngular" 			containerField="references" />
+		</PythonScript>
+		
+    
+		
+		<ROUTE fromNode="STD0Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		<ROUTE fromNode="STD1Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		<ROUTE fromNode="STD2Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		<ROUTE fromNode="STD3Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		<ROUTE fromNode="STD4Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		<ROUTE fromNode="STD5Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		<ROUTE fromNode="STD6Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		<ROUTE fromNode="STD7Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		<ROUTE fromNode="STD8Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		<ROUTE fromNode="STD9Touch" fromField="isPressed" toNode="CarmSTDPositions" toField="positionButtons" />
+		
+		
+		<PythonScript DEF="DirectManipulation" url="lib/DirectManipulationNEW.py">
+			<SliderBar USE="Rotation1Slider" 		containerField="references" />
+			<SliderBar USE="Rotation2Slider" 		containerField="references" />
+			<SliderBar USE="Rotation3Slider" 		containerField="references" />
+			<SliderBar USE="Translation1Slider" 	containerField="references" />
+			<SliderBar USE="Translation2Slider" 	containerField="references" />
+			<SliderBar USE="Translation3Slider" 	containerField="references" />
+			<MouseSensor USE="mousesensor" 			containerField="references" />
+		</PythonScript>
+		
+		<ROUTE fromNode="DirectManipulation" 	fromField="showHiRes" toNode="IVolumeData" toField="traverseOn" />
+		<!--<ROUTE fromNode="DirectManipulation" 	fromField="showLowRes" toNode="volumeToShowLow" toField="traverseOn" />-->
+		
+		
+		<ROUTE fromNode="fineAdjustButtonUp" 		fromField="state" toNode="DirectManipulation" toField="fineControlButtons2Sliders" />
+		<ROUTE fromNode="fineAdjustButtonDown" 		fromField="state" toNode="DirectManipulation" toField="fineControlButtons2Sliders" />
+		<ROUTE fromNode="fineAdjustButtonLeft" 		fromField="state" toNode="DirectManipulation" toField="fineControlButtons2Sliders" />
+		<ROUTE fromNode="fineAdjustButtonRight" 	fromField="state" toNode="DirectManipulation" toField="fineControlButtons2Sliders" />
+		
+		
+		<!-- Reset All Sliders Script -->
+		<PythonScript DEF="ResetAllSliders" url="lib/ResetAllSliders.py">
+			<TouchButton USE="ResetAllButton" containerField="references" />
+			<SliderBar USE="Rotation1Slider" containerField="references" />
+			<SliderBar USE="Rotation2Slider" containerField="references" />
+			<SliderBar USE="Rotation3Slider" containerField="references" />
+			<SliderBar USE="Translation1Slider" containerField="references" />
+			<SliderBar USE="Translation2Slider" containerField="references" />
+			<SliderBar USE="Translation3Slider" containerField="references" />
+			<SliderBar USE="TableVerticalSlider" containerField="references" />
+			<SliderBar USE="TableLongitudinalSlider" containerField="references" />
+			<SliderBar USE="TableTransverseSlider" containerField="references" />
+			<SliderBar USE="zoomSlider" containerField="references" />
+		</PythonScript>
+		
+		<ROUTE fromNode="ResetAllButton" fromField="isPressed" toNode="ResetAllSliders" toField="resetButton" />
+		
+		
+		<ROUTE fromNode="Rotation1Slider" 		fromField="value" toNode="CarmModelModelMovementScript" toField="rotation1" />
+		<ROUTE fromNode="Rotation2Slider" 		fromField="value" toNode="CarmModelModelMovementScript" toField="rotation2" />
+		<ROUTE fromNode="Rotation3Slider" 		fromField="value" toNode="CarmModelModelMovementScript" toField="rotation3" />
+		<ROUTE fromNode="Translation1Slider" 	fromField="value" toNode="CarmModelModelMovementScript" toField="translation1" />
+		<ROUTE fromNode="Translation2Slider" 	fromField="value" toNode="CarmModelModelMovementScript" toField="translation2" />
+		<ROUTE fromNode="Translation3Slider" 	fromField="value" toNode="CarmModelModelMovementScript" toField="translation3" />
+		
+		<!-- COLLISION DETECTION ROUTES -->
+		<!-- Table slider routes -->
+		<ROUTE fromNode="TableVerticalSlider" fromField="value" toNode="TableMovement" toField="tableVertical" />
+		<ROUTE fromNode="TableLongitudinalSlider" fromField="value" toNode="TableMovement" toField="tableLongitudinal" />
+		<ROUTE fromNode="TableTransverseSlider" fromField="value" toNode="TableMovement" toField="tableTransverse" />
+		
+	<!-- COLLISION DETECTION ROUTES -->
+	<ROUTE fromNode="Rotation1Slider" 		fromField="value" toNode="CollisionClient" toField="rotation1" />
+	<ROUTE fromNode="Rotation2Slider" 		fromField="value" toNode="CollisionClient" toField="rotation2" />
+	<ROUTE fromNode="Rotation3Slider" 		fromField="value" toNode="CollisionClient" toField="rotation3" />
+	<ROUTE fromNode="Translation1Slider" 	fromField="value" toNode="CollisionClient" toField="translation1" />
+	<ROUTE fromNode="Translation2Slider" 	fromField="value" toNode="CollisionClient" toField="translation2" />
+	<ROUTE fromNode="Translation3Slider" 	fromField="value" toNode="CollisionClient" toField="translation3" />
+	<!-- Table slider routes to collision client -->
+	<ROUTE fromNode="TableVerticalSlider" 		fromField="value" toNode="CollisionClient" toField="tableVertical" />
+	<ROUTE fromNode="TableLongitudinalSlider" 	fromField="value" toNode="CollisionClient" toField="tableLongitudinal" />
+	<ROUTE fromNode="TableTransverseSlider" 	fromField="value" toNode="CollisionClient" toField="tableTransverse" />
+	<!-- Zoom slider route to collision client (for DRR magnification) -->
+	<ROUTE fromNode="zoomSlider" 				fromField="value" toNode="CollisionClient" toField="zoom" />
+		
+		<PythonScript DEF="sidesTranslate" url="lib/sidesTranslate.py" >
+			<ImageTexture3D USE = "T1" 							containerField="references"/>
+			<TouchButton 	USE = "RightSideSwitch" 			containerField="references"/>
+			<TouchButton 	USE = "LeftSideSwitch"	 			containerField="references"/>
+			<TouchButton 	USE = "BothSideSwitch"	 			containerField="references"/>
+			<ToggleGroup 	USE = "rightButtons"				containerField="references"/>
+			<ToggleGroup 	USE = "leftButtons"					containerField="references"/>
+			<Translation 	USE = "ETCarmOffsetCorrection"		containerField="references" />
+			<SliderBar 		USE="Translation1Slider" 	containerField="references" />
+			<SliderBar	 	USE="Translation2Slider" 	containerField="references" />
+			<SliderBar 		USE="Translation3Slider" 	containerField="references" />
+		</PythonScript>
+		
+		<ROUTE fromNode = "BothSideSwitch" 	fromField = "state" 			toNode = "sidesTranslate" 				toField = "translateSide" />
+		<ROUTE fromNode = "sidesTranslate"  fromField = "translateSide" 	toNode = "ETCarmOffsetCorrection" 		toField = "translation" />
+		
+		<ROUTE fromNode = "RightSideSwitch" fromField = "state" 			toNode = "sidesTranslate" 				toField = "translateSide" />
+		<ROUTE fromNode = "sidesTranslate"  fromField = "translateSide" 	toNode = "ETCarmOffsetCorrection" 		toField = "translation" />
+		
+		
+		<ROUTE fromNode = "LeftSideSwitch"  fromField = "state" 			toNode = "sidesTranslate" 				toField = "translateSide" />
+		<ROUTE fromNode = "sidesTranslate"  fromField = "translateSide" 	toNode = "ETCarmOffsetCorrection" 		toField = "translation" />
+		
+		<PythonScript DEF = "Convert" url = "lib/Convert.py" />
+    
+		
+		<ROUTE fromNode = "Rotation1Slider" 	 	fromField="value" 			toNode="Convert" 		toField="carm2MFString" />	
+		<ROUTE fromNode = "Rotation2Slider" 	 	fromField="value" 			toNode="Convert" 		toField="carm2MFString" />	
+		<ROUTE fromNode = "Rotation3Slider" 	 	fromField="value" 			toNode="Convert" 		toField="carm2MFString" />	
+		<ROUTE fromNode = "Translation1Slider"	 	fromField="value" 			toNode="Convert" 		toField="carm2MFString" />	
+		<ROUTE fromNode = "Translation2Slider" 		fromField="value" 			toNode="Convert" 		toField="carm2MFString" />	
+		<ROUTE fromNode = "Translation3Slider" 		fromField="value" 			toNode="Convert" 		toField="carm2MFString" />	
+		<ROUTE fromNode = "Convert" 				fromField="carm2MFString" 	toNode="CArmPosText" 	toField="string" />
+	</MatrixTransform>
+	
+	<ROUTE fromNode='PIFullScreenFrameInstance' 		fromField='ViewplaneMatrix' 	toNode='ImagePlane' 									toField='matrix' />
+
+	
+	
+</Scene>
+ 

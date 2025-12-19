@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Scene>
+	<Background skyColor="0.937 0.937 0.933" />
+	
+	<!-- Top-down view looking straight down -->
+	<Viewpoint description='Top View' position='0.3 3 0' orientation='1 0 0 -1.5708' fieldOfView='1.2' set_bind="true" />
+	
+	<!-- Patient Table (3 parts) - Same as main.x3d -->
+	<Transform DEF='TTableRotation' translation='0.3 -0.3 0' rotation='0 1 0 1.5708' scale='1.2 1.2 1.2'>
+		<!-- Table Top -->
+		<Transform DEF='TTableTopBase' translation='0.325 0 0'>
+			<Transform rotation='0 0 1 1.5708'>
+				<Inline DEF='ITableTop' url='models/table_top_watertight_mesh.x3d' />
+			</Transform>
+		</Transform>
+		
+		<!-- Table Body -->
+		<Transform DEF='TTableBodyTransform' translation='0.4 -0.6 0'>
+			<Inline DEF='ITableBody' url='models/table_body_sphere_watertight_mesh.x3d' />
+		</Transform>
+		
+		<!-- Table Wheels Base -->
+		<Transform DEF='TTableWheelsTransform' translation='0.25 -0.6 0'>
+			<Inline DEF='ITableWheels' url='models/table_wheels_base_watertight_mesh.x3d' />
+		</Transform>
+	</Transform>
+	
+	<!-- Patient Only - Same as main.x3d -->
+	<Transform DEF='TPatientTransform' translation='0.3 -0.15 -0.34' scale="-1.2 1.2 -1.2">
+		<Inline DEF='IPatientModel' url='models/patient-model.x3d' />
+	</Transform>
+</Scene>

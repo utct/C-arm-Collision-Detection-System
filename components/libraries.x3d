@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<X3D profile="Full" version="3.2">
+	<head>
+		<meta content="hapticdevice.x3d" name="title"/>
+		<meta content="The haptic device for this setup." name="description"/>
+		<meta content="Ulrich Eck ueck@net-labs.de" name="author"/>
+	</head>
+	<Scene>
+		<PythonScript url="../lib/AutoLoadSO.py">
+			<!-- <MetadataInteger name="verbose" value="1" containerField="references"/> -->
+			<MetadataString containerField="references" name="library" value="H3DNARVIS"/>
+			<MetadataString containerField="references" name="library" value="UI"/>
+			<MetadataString containerField="references" name="library" value="MedX3D"/>
+			<MetadataString containerField="references" name="library" value="H3DNiftiImageLoader"/>
+		</PythonScript>
+	</Scene>
+</X3D>

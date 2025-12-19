@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<X3D version="3.0" profile="Immersive" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
+	<Group> <!-- Volume rendering -->
+		<Background skyColor="0.99 0.99 0.99" />
+		<!--<Shape>
+			<Sphere radius='0.001' />
+			<Appearance>
+				<Material diffuseColor='0 0 1' />
+			</Appearance>
+		</Shape>-->
+		<PythonScript url="converter.py" DEF="CVT" />
+		<!--<Inline DEF = "coor" url="../models/coord_system.x3d"/>-->
+         <!-- <Shape>
+            <Sphere radius='0.008' />
+            <Appearance DEF='A'>
+			<Material diffuseColor='0.3 0.3 1' />
+			</Appearance>
+          </Shape>-->
+		<Transform DEF='SceneTransformation' rotation="0 0 0 0" scale="-1 1 1" translation="0.0569199994206 0 0">
+			<MatrixTransform DEF="V1TRANS">
+				<VolumeData DEF="V1" dimensions='0.360 0.360 0.972' useStochasticJittering='true' stopRaysAtGeometries='false'>
+
+					<OpacityMapVolumeStyle type='preintegrated_fast'>
+							<TransferFunctionTexture containerField='transferFunction'>
+								<PiecewiseLinearFunction DEF="plf_alpha"
+									containerField="alphaFunction"
+									continuous="true"
+									segments='	0.0 0.0
+												0.3 0.0
+												0.7 0.05
+												1.00 0.05' />
+								<PiecewiseLinearFunction DEF="plf_red"
+									containerField="redFunction"
+									continuous="true"
+									segments='	0.0 0
+												1.0 0' />
+								<PiecewiseLinearFunction DEF="plf_green"
+									containerField="greenFunction"
+									continuous="true"
+									segments='	0.0 0
+												1.0 0' />
+								<PiecewiseLinearFunction DEF="plf_blue"
+									containerField="blueFunction"
+									continuous="true"
+									segments='	0.0 0
+												1.0 0' />
+							</TransferFunctionTexture>
+					</OpacityMapVolumeStyle>
+					
+			        <ImageTexture3D containerField="voxels" url="P42_Enhanced.nii" DEF="T1">
+			          <NiftiImageLoader alphaType="LUMINANCE" DEF="L1"/>
+			          <ROUTE fromNode="L1" fromField="dim" toNode="V1" toField="dimensions"/>
+			     <!-- <ROUTE fromNode="L1" fromField="transform" toNode="CVT" toField="m2m"/>
+			          <ROUTE fromNode="CVT" fromField="m2m" toNode="V1TRANS" toField="matrix"/>
+			          <ROUTE fromNode="V1TRANS" fromField="matrix" toNode="CVT2" toField="IO"/> 
+			          <ROUTE fromNode="CVT2" fromField="IO" toNode="SceneTransformation" toField="translation"/> --> 
+					  <TextureProperties boundaryModeR='CLAMP_TO_EDGE' boundaryModeS='CLAMP_TO_EDGE' boundaryModeT='CLAMP_TO_EDGE' magnificationFilter='AVG_PIXEL' minificationFilter='AVG_PIXEL'  />
+			        </ImageTexture3D>
+				</VolumeData>
+			</MatrixTransform>
+		</Transform>
+		
+		<EXPORT AS="T1" 	localDEF="T1" />
+	</Group>
+</X3D>
+

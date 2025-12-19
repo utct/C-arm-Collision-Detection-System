@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.2//EN" "http://www.web3d.org/specifications/x3d-3.2.dtd">
+<X3D>
+	<Scene>		
+		<ProtoDeclare name="ForceAspectRatio">
+			<ProtoInterface>
+				<field accessType="inputOutput" name="WidthRatio" type="SFFloat" />
+				<field accessType="inputOutput" name="HeightRatio" type="SFFloat" />
+			</ProtoInterface>
+			<ProtoBody>
+				<PythonScript DEF="aspectRatio" url="lib/ForceAspectRatio.py" >
+					<IS>
+						<connect nodeField="setWidthRatio" 		protoField="WidthRatio" />
+						<connect nodeField="setHeigthRatio" 	protoField="HeightRatio" />
+					</IS>
+				</PythonScript>
+			</ProtoBody>
+		</ProtoDeclare>
+	</Scene>
+</X3D>

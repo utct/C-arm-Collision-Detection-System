@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<X3D profile='Full' version='3.2'>
+
+	<Scene>		
+		<ProtoDeclare name="PDFullScreenFrame">
+			<ProtoInterface>
+				<field accessType='inputOutput' name='ViewpointPosition' 			type='SFVec3f' />
+				<field accessType='inputOutput' name='ViewpointOrientation' 		type='SFRotation' />
+				<field accessType='inputOutput' name='ViewpointFOV' 				type='SFFloat' />
+				<field accessType='inputOutput' name='DistanceToViewplane' 			type='SFFloat' />
+				<field accessType='inputOutput' name='SizeOfViewplane' 				type='SFVec2f' />
+				<field accessType='outputOnly' 	name='ViewplaneMatrix' 				type='SFMatrix4f' />
+			</ProtoInterface>
+			<ProtoBody>
+				<PythonScript DEF='PSFullScreenFrame' url='lib/FullscreenFrame.py'>
+					<IS>
+						<connect nodeField='ViewpointPosition' 		protoField='ViewpointPosition' />
+						<connect nodeField='ViewpointOrientation' 	protoField='ViewpointOrientation' />
+						<connect nodeField='ViewpointFOV' 			protoField='ViewpointFOV' />
+						<connect nodeField='DistanceToViewplane' 	protoField='DistanceToViewplane' />
+						<connect nodeField='SizeOfViewplane' 		protoField='SizeOfViewplane' />
+						<connect nodeField='ViewplaneMatrix' 		protoField='ViewplaneMatrix' />
+					</IS>
+				</PythonScript>
+			</ProtoBody>
+		</ProtoDeclare>
+	</Scene>
+</X3D>

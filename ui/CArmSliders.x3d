@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<X3D version="3.0" profile="Immersive" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.0.xsd">
+	<Group>
+		<KeySensor DEF='KEYSENSORMENU' />
+		<NavigationInfo type="EXAMINE" />
+		<Transform translation="0 0 0" scale="1 1 1">
+		<ToggleGroup DEF="menu"><!-- Menu-Buttons -->	
+			<Frame desiredSize="0.35 1.0 0.0001">					<Label text="Orbital">
+						<FontStyle DEF="Rotation1SliderName" justify='"MIDDLE" "MIDDLE"' size="0.032" family="Lucida Sans" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+						<GridInfo columnSpan="1" rowSpan="1" column="0" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+								
+					</Label>
+					<!-- The Slider -->
+					<SliderBar DEF="Rotation1Slider" valueRange="-100 100" value="0" stepLength="0.001" markerColor="1 0 0" horizontal="false" enabled="false">
+						<GridInfo columnSpan="1" rowSpan="6" column="0" row="1" padding="0.003 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<RenderProperties depthTestEnabled="false" />
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+						<Appearance containerField="appearance">
+							<Material diffuseColor='0.7 0.7 0.7' transparency='0.3' />
+						</Appearance>
+					</SliderBar>
+					<!-- Slider value label -->
+					<Label DEF="Rotation1SliderLabel">
+						<FontStyle USE="Rotation1SliderName" />
+						<GridInfo columnSpan="1" rowSpan="1"  column="0" row="7" padding="0.0009 0.001" sticky="W+E+N+S" />
+
+					</Label>
+					
+					<Label text="Tilt">
+						<FontStyle DEF="Rotation2SliderName" justify='"MIDDLE" "MIDDLE"' size="0.032" family="Lucida Sans" />
+						<GridInfo columnSpan="1" rowSpan="1" column="1" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+					</Label>
+					<!-- The Slider -->
+					<SliderBar DEF="Rotation2Slider" valueRange="-90 270" value="0" stepLength="0.5" markerColor="1 0 0" horizontal="false" enabled="false">
+						<GridInfo columnSpan="1" rowSpan="6" column="1" row="1" padding="0.003 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<RenderProperties depthTestEnabled="false" />
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+						<Appearance containerField="appearance">
+							<Material diffuseColor='0.7 0.7 0.7' transparency='0.3' />
+						</Appearance>
+					</SliderBar>
+					<!-- Slider value label -->
+					<Label DEF="Rotation2SliderLabel">
+						<FontStyle USE="Rotation2SliderName" />
+						<GridInfo columnSpan="1" rowSpan="1"  column="1" row="7" padding="0.0009 0.001" sticky="W+E+N+S" />
+
+					</Label>
+					
+					<Label text="Wigwag">
+						<FontStyle DEF="Rotation3SliderName" justify='"MIDDLE" "MIDDLE"' size="0.032" family="Lucida Sans" />
+						<GridInfo columnSpan="1" rowSpan="1" column="2" row="0" padding="0.001 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+					</Label>
+					<!-- The Slider -->
+					<SliderBar DEF="Rotation3Slider" valueRange="-10 10" value="0" stepLength="0.001" markerColor="1 0 0" horizontal="false" enabled="false">
+						<GridInfo columnSpan="1" rowSpan="6" column="2" row="1" padding="0.003 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<RenderProperties depthTestEnabled="false" />
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+						<Appearance containerField="appearance">
+							<Material diffuseColor='0.7 0.7 0.7' transparency='0.3' />
+						</Appearance>
+					</SliderBar>
+					<!-- Slider value label -->
+					<Label DEF="Rotation3SliderLabel">
+						<FontStyle USE="Rotation3SliderName" />
+						<GridInfo columnSpan="1" rowSpan="1"  column="2" row="7" padding="0.0009 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+					</Label>
+					
+					<Label text="Horizontal">
+						<FontStyle DEF="Translation1SliderName" justify='"MIDDLE" "MIDDLE"' size="0.032" family="Lucida Sans" />
+						<GridInfo columnSpan="1" rowSpan="1" column="0" row="9" padding="0.001 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+			</Label>
+			<!-- The Slider -->
+			<SliderBar DEF="Translation1Slider" valueRange="-5 5" value="0" stepLength="0.5" markerColor="1 0 0" horizontal="false" enabled="true">
+				<GridInfo columnSpan="1" rowSpan="6" column="0" row="10" padding="0.003 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<RenderProperties depthTestEnabled="false" />
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+						<Appearance containerField="appearance">
+							<Material diffuseColor='0.7 0.7 0.7' transparency='0.3' />
+						</Appearance>
+					</SliderBar>
+					<!-- Slider value label -->
+					<Label DEF="Translation1SliderLabel">
+						<FontStyle USE="Translation1SliderName" />
+						<GridInfo columnSpan="1" rowSpan="1"  column="0" row="16" padding="0.0009 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+					</Label>
+					
+					<Label text="Lateral">
+						<FontStyle DEF="Translation2SliderName" justify='"MIDDLE" "MIDDLE"' size="0.032" family="Lucida Sans" />
+						<GridInfo columnSpan="1" rowSpan="1" column="1" row="9" padding="0.001 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+				</Label>
+				<!-- The Slider -->
+				<SliderBar DEF="Translation2Slider" valueRange="-5 5" value="0" stepLength="0.5" markerColor="1 0 0" horizontal="false" enabled="true">
+					<GridInfo columnSpan="1" rowSpan="6" column="1" row="10" padding="0.003 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+						<Appearance containerField="appearance">
+							<Material diffuseColor='0.7 0.7 0.7' transparency='0.3' />
+						</Appearance>
+					</SliderBar>
+					<!-- Slider value label -->
+					<Label DEF="Translation2SliderLabel">
+						<FontStyle USE="Translation2SliderName" />
+						<GridInfo columnSpan="1" rowSpan="1"  column="1" row="16" padding="0.0009 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+					</Label>
+					
+					<Label text="Vertical">
+						<FontStyle DEF="Translation3SliderName" justify='"MIDDLE" "MIDDLE"' size="0.032" family="Lucida Sans" />
+						<GridInfo columnSpan="1" rowSpan="1" column="2" row="9" padding="0.001 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+					</Label>
+					<!-- The Slider -->
+					<SliderBar DEF="Translation3Slider" valueRange="0 46" value="0" stepLength="0.5" markerColor="1 0 0" horizontal="false" enabled="true">
+						<GridInfo columnSpan="1" rowSpan="6" column="2" row="10" padding="0.003 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+						<Appearance containerField="appearance">
+							<Material diffuseColor='0.7 0.7 0.7' transparency='0.3' />
+						</Appearance>
+					</SliderBar>
+					<!-- Slider value label -->
+					<Label DEF="Translation3SliderLabel">
+						<FontStyle USE="Translation3SliderName" />
+						<GridInfo columnSpan="1" rowSpan="1"  column="2" row="16" padding="0.0009 0.001" sticky="W+E+N+S" />
+						<Appearance containerField="textAppearance">
+							<Material diffuseColor='0 0 0' />
+						</Appearance>
+					</Label>
+				</Frame>
+
+
+			</ToggleGroup>
+		</Transform>
+
+		<PythonScript DEF="Convert" url="../lib/Convert.py" />
+		
+		<ROUTE fromNode='Rotation1Slider' 				fromField='value' 									toNode='Convert' 							toField='Rotation1SFFloat2MFString' />
+		<ROUTE fromNode='Convert' 						fromField='Rotation1SFFloat2MFString' 				toNode='Rotation1SliderLabel' 				toField='text' />
+					
+		<ROUTE fromNode='Rotation2Slider' 				fromField='value' 									toNode='Convert' 							toField='Rotation2SFFloat2MFString' />
+		<ROUTE fromNode='Convert' 						fromField='Rotation2SFFloat2MFString' 				toNode='Rotation2SliderLabel' 				toField='text' />
+					
+		<ROUTE fromNode='Rotation3Slider' 				fromField='value' 									toNode='Convert' 							toField='Rotation3SFFloat2MFString' />
+		<ROUTE fromNode='Convert' 						fromField='Rotation3SFFloat2MFString' 				toNode='Rotation3SliderLabel' 				toField='text' />
+				
+		<ROUTE fromNode='Translation1Slider' 			fromField='value' 									toNode='Convert' 							toField='Translation1SFFloat2MFString' />
+		<ROUTE fromNode='Convert' 						fromField='Translation1SFFloat2MFString' 			toNode='Translation1SliderLabel' 			toField='text' />
+		
+		<ROUTE fromNode='Translation2Slider' 			fromField='value' 									toNode='Convert' 							toField='Translation2SFFloat2MFString' />
+		<ROUTE fromNode='Convert' 						fromField='Translation2SFFloat2MFString' 			toNode='Translation2SliderLabel' 			toField='text' />
+
+		<ROUTE fromNode='Translation3Slider' 			fromField='value' 									toNode='Convert' 							toField='Translation3SFFloat2MFString' />
+		<ROUTE fromNode='Convert' 						fromField='Translation3SFFloat2MFString' 			toNode='Translation3SliderLabel' 			toField='text' />		
+		
+
+		<EXPORT	AS='Rotation1Slider'			localDEF='Rotation1Slider' />	
+		<EXPORT	AS='Rotation2Slider'			localDEF='Rotation2Slider' />	
+		<EXPORT	AS='Rotation3Slider'			localDEF='Rotation3Slider' />	
+		<EXPORT	AS='Translation1Slider'			localDEF='Translation1Slider' />	
+		<EXPORT	AS='Translation2Slider'			localDEF='Translation2Slider' />	
+		<EXPORT	AS='Translation3Slider'			localDEF='Translation3Slider' />	
+		
+		
+	</Group>
+
+</X3D>

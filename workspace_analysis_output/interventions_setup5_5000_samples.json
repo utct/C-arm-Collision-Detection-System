@@ -1,0 +1,176 @@
+[
+  {
+    "setup": "setup5",
+    "setup_name": "C-arm 6DOF + Table All (Vertical, Longitudinal, Transverse)",
+    "dof": 9,
+    "intervention": "PA",
+    "intervention_name": "Posterior-Anterior",
+    "intervention_config": {
+      "name": "Posterior-Anterior",
+      "orbital": 0.0,
+      "tilt": 180.0
+    },
+    "num_samples": 5000,
+    "elapsed_time_seconds": 238.64160108566284,
+    "samples_per_second": 20.951921112049526,
+    "statistics": {
+      "collision_free": 361,
+      "collision": 4639,
+      "total": 5000,
+      "collision_free_percentage": 7.22,
+      "collision_percentage": 92.78
+    },
+    "collision_breakdown": {
+      "table_top": 2201,
+      "table_body": 3148,
+      "table_base": 1339,
+      "patient": 3036
+    },
+    "timestamp": "2025-12-18T22:27:00.762784"
+  },
+  {
+    "setup": "setup5",
+    "setup_name": "C-arm 6DOF + Table All (Vertical, Longitudinal, Transverse)",
+    "dof": 9,
+    "intervention": "AP",
+    "intervention_name": "Anterior-Posterior",
+    "intervention_config": {
+      "name": "Anterior-Posterior",
+      "orbital": 0.0,
+      "tilt": 0.0
+    },
+    "num_samples": 5000,
+    "elapsed_time_seconds": 206.69867372512817,
+    "samples_per_second": 24.18980204318628,
+    "statistics": {
+      "collision_free": 965,
+      "collision": 4035,
+      "total": 5000,
+      "collision_free_percentage": 19.3,
+      "collision_percentage": 80.7
+    },
+    "collision_breakdown": {
+      "table_top": 2010,
+      "table_body": 2174,
+      "table_base": 920,
+      "patient": 2420
+    },
+    "timestamp": "2025-12-18T22:30:27.463689"
+  },
+  {
+    "setup": "setup5",
+    "setup_name": "C-arm 6DOF + Table All (Vertical, Longitudinal, Transverse)",
+    "dof": 9,
+    "intervention": "V1",
+    "intervention_name": "Vascular 1",
+    "intervention_config": {
+      "name": "Vascular 1",
+      "orbital": -30.0,
+      "tilt": 180.0
+    },
+    "num_samples": 5000,
+    "elapsed_time_seconds": 177.79512357711792,
+    "samples_per_second": 28.122256108060636,
+    "statistics": {
+      "collision_free": 478,
+      "collision": 4522,
+      "total": 5000,
+      "collision_free_percentage": 9.56,
+      "collision_percentage": 90.44
+    },
+    "collision_breakdown": {
+      "table_top": 3281,
+      "table_body": 2338,
+      "table_base": 905,
+      "patient": 3125
+    },
+    "timestamp": "2025-12-18T22:33:25.262210"
+  },
+  {
+    "setup": "setup5",
+    "setup_name": "C-arm 6DOF + Table All (Vertical, Longitudinal, Transverse)",
+    "dof": 9,
+    "intervention": "V2",
+    "intervention_name": "Vascular 2",
+    "intervention_config": {
+      "name": "Vascular 2",
+      "orbital": 45.0,
+      "tilt": 205.0
+    },
+    "num_samples": 5000,
+    "elapsed_time_seconds": 142.8242576122284,
+    "samples_per_second": 35.008058740099536,
+    "statistics": {
+      "collision_free": 1793,
+      "collision": 3207,
+      "total": 5000,
+      "collision_free_percentage": 35.86,
+      "collision_percentage": 64.14
+    },
+    "collision_breakdown": {
+      "table_top": 2771,
+      "table_body": 0,
+      "table_base": 0,
+      "patient": 2415
+    },
+    "timestamp": "2025-12-18T22:35:48.089362"
+  },
+  {
+    "setup": "setup5",
+    "setup_name": "C-arm 6DOF + Table All (Vertical, Longitudinal, Transverse)",
+    "dof": 9,
+    "intervention": "Ver",
+    "intervention_name": "Vertebroplasty",
+    "intervention_config": {
+      "name": "Vertebroplasty",
+      "orbital": -35.0,
+      "tilt": 180.0
+    },
+    "num_samples": 5000,
+    "elapsed_time_seconds": 166.71943640708923,
+    "samples_per_second": 29.990504453189182,
+    "statistics": {
+      "collision_free": 687,
+      "collision": 4313,
+      "total": 5000,
+      "collision_free_percentage": 13.74,
+      "collision_percentage": 86.26
+    },
+    "collision_breakdown": {
+      "table_top": 3250,
+      "table_body": 1900,
+      "table_base": 656,
+      "patient": 2631
+    },
+    "timestamp": "2025-12-18T22:38:34.813101"
+  },
+  {
+    "setup": "setup5",
+    "setup_name": "C-arm 6DOF + Table All (Vertical, Longitudinal, Transverse)",
+    "dof": 9,
+    "intervention": "Lat",
+    "intervention_name": "Lateral",
+    "intervention_config": {
+      "name": "Lateral",
+      "orbital": -90.0,
+      "tilt": 180.0
+    },
+    "num_samples": 5000,
+    "elapsed_time_seconds": 95.7562313079834,
+    "samples_per_second": 52.21592299219006,
+    "statistics": {
+      "collision_free": 4982,
+      "collision": 18,
+      "total": 5000,
+      "collision_free_percentage": 99.64,
+      "collision_percentage": 0.36
+    },
+    "collision_breakdown": {
+      "table_top": 18,
+      "table_body": 0,
+      "table_base": 0,
+      "patient": 0
+    },
+    "timestamp": "2025-12-18T22:40:10.573456"
+  }
+]
