@@ -166,9 +166,9 @@ GPU: NVIDIA GeForce RTX 3060
 
 If you see `CUDA available: False`, your PyTorch installation is CPU-only. Reinstall with correct CUDA version.
 
-### 2. GPU Setup (Highly Recommended)
+### 2. GPU Setup 
 
-For real-time performance, set up GPU acceleration:
+Set up GPU acceleration:
 
 **Quick GPU Setup:**
 1. Install [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) (version 11.8 or later)
